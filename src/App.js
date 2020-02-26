@@ -1,7 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
-function App() {
-    return <div></div>;
+class App extends Component {
+    render() {
+        return (
+            <>
+                <Header />
+                <main></main>
+                <Footer />
+            </>
+        );
+    }
 }
 
 export default App;
