@@ -1,0 +1,6 @@
+.drop__content {
+    display: none;
+}
+.is-shown .drop__content {
+    display: block;
+}
