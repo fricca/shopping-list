@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 export default PropTypes.shape({
-    id: PropTypes.number,
+    id: PropTypes.string,
     name: PropTypes.string.isRequired,
     manufacturer: PropTypes.string,
 });

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { v1 as uuidv1 } from "uuid";
 import Header from "./components/Header";
 import ShoppingList from "./components/ShoppingList";
 import AddForm from "./components/AddForm";
@@ -8,15 +9,27 @@ class App extends Component {
     state = {
         shoppingListItems: [
             {
-                id: 1,
+                id: "item1",
                 name: "Zucker",
                 manufacturer: "Bio",
             },
             {
-                id: 2,
+                id: "item2",
                 name: "Klopapier",
             },
         ],
+    };
+
+    addShoppingListItem = ({ name, manufacturer }) => {
+        const items = this.state.shoppingListItems;
+
+        items.push({
+            id: uuidv1(),
+            name,
+            manufacturer,
+        });
+
+        this.setState({ shoppingListItems: items });
     };
 
     render() {
@@ -27,6 +40,7 @@ class App extends Component {
                     <ShoppingList
                         shoppingListItems={this.state.shoppingListItems}
                     />
+                    <AddForm addShoppingListItem={this.addShoppingListItem} />
                 </main>
                 <Footer />
             </>
