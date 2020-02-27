@@ -4,22 +4,45 @@ import Header from "./components/Header";
 import ShoppingList from "./components/ShoppingList";
 import AddForm from "./components/AddForm";
 import Footer from "./components/Footer";
+import Message from "./components/Message/Message";
+
+const initialItem = {
+    id: "",
+    name: "",
+    manufacturer: "",
+    bought: false,
+    lastBought: 0,
+    count: 0,
+};
 
 class App extends Component {
     state = {
         shoppingListItems: [
             {
+                ...initialItem,
                 id: "item1",
                 name: "Zucker",
                 manufacturer: "Bio",
-                bought: false,
             },
             {
+                ...initialItem,
                 id: "item2",
                 name: "Klopapier",
-                bought: false,
             },
         ],
+        messages: [],
+    };
+
+    addMessage = message => {
+        this.setState({
+            messages: [...this.state.messages, { ...message, id: uuidv1() }],
+        });
+    };
+
+    removeMessage = id => {
+        this.setState({
+            messages: this.state.messages.filter(mess => mess.id !== id),
+        });
     };
 
     toggleBought = updateItem => {
@@ -44,18 +67,58 @@ class App extends Component {
 
     addShoppingListItem = ({ name, manufacturer }) => {
         const items = this.state.shoppingListItems;
-
-        items.push({
-            id: uuidv1(),
-            name,
-            manufacturer,
-            bought: false,
+        this.setState({
+            shoppingListItems: [
+                ...items,
+                {
+                    ...initialItem,
+                    id: uuidv1(),
+                    name,
+                    manufacturer,
+                },
+            ],
         });
+    };
 
-        this.setState({ shoppingListItems: items });
+    deleteShoppingListItem = id => {
+        const items = this.state.shoppingListItems;
+        let deletedIndex;
+
+        this.setState(
+            {
+                shoppingListItems: items.filter((item, index) => {
+                    if (item.id === id) {
+                        deletedIndex = index;
+                        return false;
+                    }
+                    return true;
+                }),
+            },
+            () => {
+                // Undo?
+                this.addMessage({
+                    content: `${items[deletedIndex].name} has been deleted.`,
+                    button: "Undo?",
+                    callback: () => {
+                        this.setState({
+                            shoppingListItems: items,
+                        });
+                    },
+                });
+            }
+        );
     };
 
     render() {
+        let showMessage = "";
+        if (this.state.messages.length && this.state.messages[0].content) {
+            showMessage = (
+                <Message
+                    message={this.state.messages[0]}
+                    removeMessage={this.removeMessage}
+                />
+            );
+        }
         return (
             <>
                 <Header />
@@ -63,10 +126,12 @@ class App extends Component {
                     <ShoppingList
                         shoppingListItems={this.state.shoppingListItems}
                         markAsBought={this.toggleBought}
+                        deleteShoppingListItem={this.deleteShoppingListItem}
                     />
                     <AddForm addShoppingListItem={this.addShoppingListItem} />
                 </main>
                 <Footer />
+                {showMessage}
             </>
         );
     }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import classNames from "classnames";
 import "./Drop.css";
-import dropPropTypes from "../propTypes/dropPropTypes";
+import dropPropTypes from "../propTypes/dropPropType";
 
 class Drop extends Component {
     static propTypes = dropPropTypes;

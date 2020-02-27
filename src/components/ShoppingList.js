@@ -19,6 +19,9 @@ class ShoppingList extends Component {
                             <ShoppingListItem
                                 shoppingListItem={item}
                                 markAsBought={this.props.markAsBought}
+                                deleteShoppingListItem={
+                                    this.props.deleteShoppingListItem
+                                }
                             />
                         </li>
                     ))}
