@@ -15,24 +15,15 @@ const initialItem = {
     count: 0,
 };
 
+const storageName = "shoppingList";
+
 class App extends Component {
     state = {
-        shoppingListItems: [
-            {
-                ...initialItem,
-                id: "item1",
-                name: "Zucker",
-                manufacturer: "Bio",
-            },
-            {
-                ...initialItem,
-                id: "item2",
-                name: "Klopapier",
-            },
-        ],
+        shoppingListItems: [],
         messages: [],
     };
 
+    // Messages
     addMessage = message => {
         this.setState({
             messages: [...this.state.messages, { ...message, id: uuidv1() }],
@@ -45,6 +36,7 @@ class App extends Component {
         });
     };
 
+    // Shopping list
     toggleBought = updateItem => {
         const items = this.state.shoppingListItems;
         this.setState({
@@ -108,6 +100,20 @@ class App extends Component {
             }
         );
     };
+
+    // Lifecycle
+    componentDidMount() {
+        this.setState({
+            shoppingListItems: JSON.parse(localStorage.getItem(storageName)),
+        });
+    }
+
+    componentDidUpdate() {
+        localStorage.setItem(
+            storageName,
+            JSON.stringify(this.state.shoppingListItems)
+        );
+    }
 
     render() {
         let showMessage = "";
