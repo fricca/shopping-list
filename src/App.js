@@ -20,6 +20,7 @@ const storageName = "shoppingList";
 class App extends Component {
     state = {
         shoppingListItems: [],
+        archivedItems: [],
         messages: [],
     };
 
@@ -101,17 +102,38 @@ class App extends Component {
         );
     };
 
+    archiveShoppingList = ev => {
+        ev.preventDefault();
+
+        const bought = this.state.shoppingListItems.filter(item => item.bought);
+        const open = this.state.shoppingListItems.filter(item => !item.bought);
+        this.setState({
+            archivedItems: bought,
+            shoppingListItems: open,
+        });
+    };
+
+    hasBoughtItems = () => {
+        return !!this.state.shoppingListItems.find(item => item.bought);
+    };
+
     // Lifecycle
     componentDidMount() {
-        this.setState({
-            shoppingListItems: JSON.parse(localStorage.getItem(storageName)),
-        });
+        const stored = localStorage.getItem(storageName);
+        if (stored) {
+            const { shoppingListItems, archivedItems } = JSON.parse(stored);
+            this.setState({
+                shoppingListItems,
+                archivedItems,
+            });
+        }
     }
 
     componentDidUpdate() {
+        const { shoppingListItems, archivedItems } = this.state;
         localStorage.setItem(
             storageName,
-            JSON.stringify(this.state.shoppingListItems)
+            JSON.stringify({ shoppingListItems, archivedItems })
         );
     }
 
@@ -125,6 +147,7 @@ class App extends Component {
                 />
             );
         }
+
         return (
             <>
                 <Header />
@@ -135,6 +158,12 @@ class App extends Component {
                         deleteShoppingListItem={this.deleteShoppingListItem}
                     />
                     <AddForm addShoppingListItem={this.addShoppingListItem} />
+                    <button
+                        type="button"
+                        onClick={this.archiveShoppingList}
+                        disabled={!this.hasBoughtItems()}>
+                        Bought Items to Archive
+                    </button>
                 </main>
                 <Footer />
                 {showMessage}
