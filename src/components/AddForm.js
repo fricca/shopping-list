@@ -65,7 +65,7 @@ class AddForm extends React.Component {
                     content={this.renderDropForm()}
                     trigger={{ show: "More Options", hide: "Less Options" }}
                 />
-                <button>Add</button>
+                <button disabled={!this.state.name}>Add</button>
             </form>
         );
     }

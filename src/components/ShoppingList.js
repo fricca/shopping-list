@@ -12,9 +12,18 @@ class ShoppingList extends Component {
         const { shoppingListItems } = this.props;
 
         if (shoppingListItems.length) {
-            return shoppingListItems.map(item => (
-                <ShoppingListItem key={item.id} shoppingListItem={item} />
-            ));
+            return (
+                <ul>
+                    {shoppingListItems.map(item => (
+                        <li key={item.id}>
+                            <ShoppingListItem
+                                shoppingListItem={item}
+                                markAsBought={this.props.markAsBought}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            );
         }
 
         return "No Items Yet";
