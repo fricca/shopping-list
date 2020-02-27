@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { v1 as uuidv1 } from "uuid";
-import Header from "./components/Header";
-import ShoppingList from "./components/ShoppingList";
-import AddForm from "./components/AddForm";
-import Footer from "./components/Footer";
-import Message from "./components/Message/Message";
+import Header from "./Header";
+import ShoppingList from "./ShoppingList";
+import AddForm from "./AddForm";
+import Footer from "./Footer";
+import Message from "./Message/Message";
 
 const initialItem = {
     id: "",
