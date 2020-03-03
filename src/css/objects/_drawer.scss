@@ -1,0 +1,83 @@
+.drawer {
+    --overlay: 0 calc(var(--spacing-base) * -1.5) 10px calc(var(--spacing-base) * 3) rgba(255, 255, 255, .85);
+    --overlay: 0 calc(var(--spacing-base) * -2) 0 calc(var(--spacing-base) * 2) var(--c-gray-light-trans);
+
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    &.is-shown {
+        --overlay: none;
+    }
+
+    &__trigger {
+        --size-1: 1.5em;
+        --size-2: .25em;
+        --bg: var(--c-contrast);
+        --clr: #fff;
+        --shadow: 0 0 5px rgba(0, 0, 0, 0.35), 0 0 15px rgba(0, 0, 0, 0.35);
+    
+        background-color: var(--bg);
+        box-shadow: var(--shadow);
+        color: var(--clr);
+        position: absolute; /* CB */
+        z-index: 1; /* above content */
+        bottom: calc(100% + var(--spacing-base) * 2 + env(safe-area-inset-bottom));
+        left: auto;
+        right: 0;
+        width: 3.5em;
+        height: 3.5em;
+        margin-right: var(--spacing-base);
+        overflow: hidden;
+        border-radius: 100%;
+
+        .is-shown > & {
+            --bg: transparent;
+            --clr: var(--c-contrast);
+            --shadow: none;
+
+            transform: rotate(45deg);
+            left: auto;
+            bottom: auto;
+            top: 0;
+            right: 0;
+            margin-right: 0;
+        }
+        & .js-drop__trigger-text {
+            @include a11y-hidden;
+        }
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: var(--size-1);
+            height: var(--size-2);
+            color: inherit;
+            background-color: currentColor;
+        }
+        &::after {
+            width: var(--size-2);
+            height: var(--size-1);
+        }
+    }
+    &__content {
+        --bg-trans: .75;
+
+        border-top: 2px solid var(--c-gray);
+        background: var(--c-gray-light-trans);
+        backdrop-filter: blur(4px); /* Adds stacking context */
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.175);
+        padding: var(--spacing-base) calc(var(--spacing-base) * 2);
+        box-sizing: border-box;
+    }
+}

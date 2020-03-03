@@ -1,0 +1,18 @@
+.cat-select {
+    column-width: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12em, 1fr));
+    grid-gap: calc(var(--spacing-base) / 2) calc(var(--spacing-base) * 2);
+
+    &__name {
+        min-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    &__symbol {
+        margin-left: auto;
+        padding-left: var(--spacing-base);
+        white-space: nowrap;
+    }
+}

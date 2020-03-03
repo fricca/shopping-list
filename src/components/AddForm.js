@@ -57,7 +57,8 @@ class AddForm extends React.Component {
     render() {
         return (
             <form
-                className="form form-additem inscroll"
+                className="form inscroll"
+                style={{ "--max-height": "65vh" }}
                 onSubmit={this.handleSubmit}>
                 <header className="form__header">
                     <h2 className="form__title">Add Item</h2>
@@ -90,9 +91,9 @@ class AddForm extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="form__action">
+                <div className="form__action-group">
                     <button
-                        className="btn btn--primary form__submit"
+                        className="btn btn--primary form__action form__action--submit"
                         disabled={!this.state.name}>
                         Add
                     </button>

@@ -108,12 +108,21 @@ class App extends Component {
     archiveShoppingList = ev => {
         ev.preventDefault();
 
-        const bought = this.state.shoppingListItems.filter(item => item.bought);
-        const open = this.state.shoppingListItems.filter(item => !item.bought);
-        this.setState({
-            archivedItems: bought,
-            shoppingListItems: open,
-        });
+        const doit = window.confirm(
+            "Finish shopping: Move items marked as bought to the archive."
+        );
+        if (doit) {
+            const bought = this.state.shoppingListItems.filter(
+                item => item.bought
+            );
+            const open = this.state.shoppingListItems.filter(
+                item => !item.bought
+            );
+            this.setState({
+                archivedItems: bought,
+                shoppingListItems: open,
+            });
+        }
     };
 
     hasBoughtItems = () => {
@@ -153,7 +162,17 @@ class App extends Component {
 
         return (
             <>
-                <Header />
+                <Header>
+                    <div className="action">
+                        <button
+                            className="btn"
+                            type="button"
+                            onClick={this.archiveShoppingList}
+                            disabled={!this.hasBoughtItems()}>
+                            To Archive
+                        </button>
+                    </div>
+                </Header>
                 <main className="page__main shopping holder">
                     <ShoppingList
                         categories={categories}
@@ -173,11 +192,6 @@ class App extends Component {
                             categories={categories}
                         />
                     </Drop>
-                        type="button"
-                        onClick={this.archiveShoppingList}
-                        disabled={!this.hasBoughtItems()}>
-                        Bought Items to Archive
-                    </button>
                 </main>
                 <Footer />
                 {showMessage}

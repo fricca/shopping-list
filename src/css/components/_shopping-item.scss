@@ -1,0 +1,132 @@
+.shopping-item {
+    --swipe-space: calc(var(--spacing-base) * 2);
+
+    background-color: #fff;
+    min-height: 3em;
+    margin-right: var(--swipe-space);
+    display: flex;
+    align-items: stretch;
+
+    &.is-bought {
+        background-color: var(--c-gray-lighter);
+    }
+
+    &__item {
+        padding: calc(var(--spacing-base) / 2) 0 calc(var(--spacing-base) / 2)
+            var(--spacing-base);
+        margin-left: auto;
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    &__name {
+        font-size: 125%;
+        display: block;
+        min-width: 0;
+        hyphens: auto;
+        word-wrap: break;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__meta {
+        font-size: 87.5%;
+    }
+
+    &__action-group {
+        min-width: 0;
+        flex: 0 0 auto;
+        display: flex;
+    }
+    &__action {
+        --min-size: var(--swipe-space);
+        --width: 3.25em;
+    
+        width: var(--width);
+        min-height: var(--min-size);
+        overflow: hidden;
+        line-height: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &--mark {
+            flex: 1 0 auto;
+            position: relative; /* CB */
+            
+            &:focus {
+                outline: none;
+            }
+            &::-moz-focus-inner {
+                border: none;
+            }
+            &::before {
+                content: "";
+                display: block;
+                width: 1.5em;
+                height: 1.5em;
+                border: 2px solid var(--c-gray);
+                border-radius: 2px;
+            }
+            &:focus::before {
+                border-color: var(--c-gray-dark);
+            }
+            &::after {
+                --scale: 0.9, 0;
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                width: 1em;
+                height: 1.75em;
+                border: solid var(--c-success);
+                border-width: 0 7px 7px 0;
+                border-radius: 3px;
+                transform: rotate(40deg) translate(-64%, -42%) skew(7deg, 2deg)
+                    scale(var(--scale));
+                transform-origin: 0 100%;
+                opacity: 0;
+                transition: opacity 0.2s, transform 0.2s;
+            }
+            .is-bought &::after {
+                --scale: 1, 1;
+                opacity: 1;
+            }
+        }
+
+        &--delete {
+            min-width: 0;
+            width: var(--swipe-space);
+            margin-right: calc(var(--swipe-space) * -1);
+            position: relative; /* CB */
+            left: calc(var(--spacing-base) / 2); /* Fix position visually */
+            flex: 0 1 auto;
+            background: transparent;
+
+            &::before,
+            &::after {
+                content: "";
+                display: inline-block;
+                background-color: var(--c-danger);
+                width: 3px;
+                height: 1em;
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+                transform: rotate(45deg);
+            }
+            &::after {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

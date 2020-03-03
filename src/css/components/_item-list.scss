@@ -1,0 +1,16 @@
+.item-list {
+    &__empty {
+        margin: 0;
+        padding: var(--spacing-base) 0;
+        font-weight: bold;
+    }
+
+    &__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    &__item {
+        margin: calc(var(--spacing-base) / 2) 0;
+    }
+}

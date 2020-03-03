@@ -1,0 +1,24 @@
+.page {
+    min-height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: minmax(0, 1fr);
+
+    &__header {
+        background-color: rgba(255, 255, 255, .9);
+        border-bottom: 2px solid var(--c-gray-light);
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+    &__main {
+        padding-left: var(--spacing-base);
+        padding-right: var(--spacing-base);
+    }
+
+    &__footer {
+        padding: var(--spacing-base);
+        text-align: center;
+    }
+}

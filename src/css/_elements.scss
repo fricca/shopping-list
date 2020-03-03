@@ -1,0 +1,30 @@
+html,
+body {
+    background-color: var(--c-gray-light);
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+body {
+    /* Responsive font size: https://css-tricks.com/snippets/css/fluid-typography/ */
+    --min-font-size: 16;
+    --max-font-size: 24;
+    --min-viewport: 300;
+    --max-viewport: 1680;
+    font: 100% / var(--line-height-base) var(--font-base);
+    font-size: calc(
+        var(--min-font-size) * 1px +
+            (var(--max-font-size) - var(--min-font-size)) *
+            (
+                (100vw - var(--min-viewport) * 1px) /
+                    (var(--max-viewport) - var(--min-viewport))
+            )
+    );
+    color: var(--c-text);
+}
+
+h1 {
+    font-size: 200%;
+    font-weight: bold;
+    line-height: var(--line-height-reduced);
+}

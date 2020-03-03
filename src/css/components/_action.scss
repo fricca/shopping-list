@@ -1,0 +1,7 @@
+.action {
+    display: flex;
+
+    &__item {
+        margin-left: calc(var(--spacing-base) / 2);
+    }
+}

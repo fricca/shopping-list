@@ -1,0 +1,63 @@
+@mixin btn-base {
+    --btn-color: var(--c-text);
+    --btn-bg: var(--c-gray);
+
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
+    padding: calc(var(--spacing-base) / 2) var(--spacing-base);
+    border-radius: 4px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: var(--line-height-reduced);
+}
+
+.btn {
+    display: inline-block;
+
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    vertical-align: top;
+    color: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
+
+    text-decoration: none;
+
+    outline: none; /* @TODO: DON'T FORGET TO RE-ADD FOCUS STYLE! */
+
+    &:disabled {
+        opacity: .5;
+        cursor: not-allowed;
+    }
+
+    &--primary,
+    &--secondary {
+        @include btn-base();
+    }
+    &--primary {
+        --btn-color: #fff;
+        --btn-bg: var(--c-contrast);
+    }
+    &--secondary {
+        --btn-color: #fff;
+        --btn-bg: var(--c-gray-dark);
+    }
+}

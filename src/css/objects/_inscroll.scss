@@ -1,0 +1,14 @@
+.inscroll {
+    --max-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-height: var(--max-height);
+    
+    &__scroll {
+        flex-shrink: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
+        margin-bottom: 0;
+    }
+}
