@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Drop from "./Drop/Drop";
 
 const initialState = {
     name: "",
@@ -55,21 +54,6 @@ class AddForm extends React.Component {
         );
     };
 
-    renderDropForm = () => {
-        return (
-            <>
-                <label htmlFor="add-manufacturer">Manufacturer</label>
-                <input
-                    id="add-manufacturer"
-                    type="text"
-                    name="manufacturer"
-                    value={this.state.manufacturer}
-                    onChange={this.handleChange}
-                />
-            </>
-        );
-    };
-
     render() {
         return (
             <form className="add-form" onSubmit={this.handleSubmit}>
@@ -81,10 +65,6 @@ class AddForm extends React.Component {
                     name="name"
                     onChange={this.handleChange}
                     value={this.state.name}
-                />
-                <Drop
-                    content={this.renderDropForm()}
-                    trigger={{ show: "More Options", hide: "Less Options" }}
                 />
                         <label htmlFor="add-category" className="form__label">
                             Category
