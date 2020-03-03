@@ -5,7 +5,6 @@ export default {
         show: PropTypes.node,
         hide: PropTypes.node,
     }),
-    content: PropTypes.node.isRequired,
     visible: PropTypes.bool,
     classes: PropTypes.shape({
         wrap: PropTypes.string,

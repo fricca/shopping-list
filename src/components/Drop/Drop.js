@@ -34,7 +34,7 @@ class Drop extends Component {
     };
 
     render() {
-        const { trigger, content, cssClasses } = this.props;
+        const { trigger, classes: cssClasses } = this.props;
         const { visible } = this.state;
 
         const baseClass = "js-drop";
@@ -42,12 +42,16 @@ class Drop extends Component {
             "is-shown": visible,
         });
         const triggerClass = classNames(
+            "btn",
             baseClass + "__trigger",
             cssClasses && cssClasses.trigger
         );
         const contentClass = classNames(
             baseClass + "__content",
-            cssClasses && cssClasses.content
+            cssClasses && cssClasses.content,
+            {
+                "is-shown": visible,
+            }
         );
 
         return (
@@ -56,11 +60,13 @@ class Drop extends Component {
                     type="button"
                     className={triggerClass}
                     onClick={this.toggle}>
-                    {!visible
-                        ? (trigger && trigger.show) || "Show more"
-                        : (trigger && trigger.hide) || "Hide"}
+                    <span className={`${baseClass}__trigger-text`}>
+                        {!visible
+                            ? (trigger && trigger.show) || "Show more"
+                            : (trigger && trigger.hide) || "Hide"}
+                    </span>
                 </button>
-                <div className={contentClass}>{content}</div>
+                <div className={contentClass}>{this.props.children}</div>
             </div>
         );
     }
