@@ -154,7 +154,7 @@ class App extends Component {
         return (
             <>
                 <Header />
-                <main>
+                <main className="page__main shopping holder">
                     <ShoppingList
                         categories={categories}
                         shoppingListItems={this.state.shoppingListItems}
@@ -164,7 +164,7 @@ class App extends Component {
                     <Drop
                         trigger={{ show: "Add Item" }}
                         classes={{
-                            wrap: "drawer is-holder is-bledoff",
+                            wrap: "drawer holder is-bledoff",
                             trigger: "drawer__trigger",
                             content: "drawer__content",
                         }}>

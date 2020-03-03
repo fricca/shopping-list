@@ -56,16 +56,28 @@ class AddForm extends React.Component {
 
     render() {
         return (
-            <form className="add-form" onSubmit={this.handleSubmit}>
-                <h2>Add Item</h2>
-                <label htmlFor="add-name">Product</label>
-                <input
-                    id="add-name"
-                    type="text"
-                    name="name"
-                    onChange={this.handleChange}
-                    value={this.state.name}
-                />
+            <form
+                className="form form-additem inscroll"
+                onSubmit={this.handleSubmit}>
+                <header className="form__header">
+                    <h2 className="form__title">Add Item</h2>
+                </header>
+                <div className="form__group inscroll__scroll inscroll">
+                    <div className="form__item">
+                        <label className="form__label" htmlFor="add-name">
+                            Product
+                        </label>
+                        <input
+                            className="form__input form__input--text"
+                            id="add-name"
+                            type="text"
+                            name="name"
+                            placeholder="Add product name"
+                            onChange={this.handleChange}
+                            value={this.state.name}
+                        />
+                    </div>
+                    <div className="form__item inscroll__scroll">
                         <label htmlFor="add-category" className="form__label">
                             Category
                         </label>
@@ -76,11 +88,15 @@ class AddForm extends React.Component {
                                 this.renderCategory(category)
                             )}
                         </div>
+                    </div>
+                </div>
+                <div className="form__action">
                     <button
                         className="btn btn--primary form__submit"
                         disabled={!this.state.name}>
                         Add
                     </button>
+                </div>
             </form>
         );
     }

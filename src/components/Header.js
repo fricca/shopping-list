@@ -1,7 +1,13 @@
 import React from "react";
 
 const Header = () => {
-    return <h1>My Shopping List</h1>;
+    return (
+        <header className="page__header">
+            <div className="header__wrap holder">
+                <h1 className="page__title">Shopping List</h1>
+            </div>
+        </header>
+    );
 };
 
 export default Header;
