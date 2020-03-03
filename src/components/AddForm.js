@@ -5,6 +5,7 @@ import Drop from "./Drop/Drop";
 const initialState = {
     name: "",
     manufacturer: "",
+    category: "misc",
 };
 
 class AddForm extends React.Component {

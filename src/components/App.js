@@ -5,6 +5,7 @@ import ShoppingList from "./ShoppingList";
 import AddForm from "./AddForm";
 import Footer from "./Footer";
 import Message from "./Message/Message";
+import categories from "../data/categories.json";
 
 const initialItem = {
     id: "",
@@ -58,7 +59,7 @@ class App extends Component {
         });
     };
 
-    addShoppingListItem = ({ name, manufacturer }) => {
+    addShoppingListItem = ({ name, manufacturer, category }) => {
         const items = this.state.shoppingListItems;
         this.setState({
             shoppingListItems: [
@@ -68,6 +69,7 @@ class App extends Component {
                     id: uuidv1(),
                     name,
                     manufacturer,
+                    category,
                 },
             ],
         });
@@ -153,6 +155,7 @@ class App extends Component {
                 <Header />
                 <main>
                     <ShoppingList
+                        categories={categories}
                         shoppingListItems={this.state.shoppingListItems}
                         markAsBought={this.toggleBought}
                         deleteShoppingListItem={this.deleteShoppingListItem}

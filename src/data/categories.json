@@ -1,0 +1,57 @@
+[
+    {
+        "id": "produce",
+        "symbol": "🥕",
+        "name": "Fruits & Vegetables"
+    },
+    {
+        "id": "meat",
+        "symbol": "🥩",
+        "name": "Cheese & Meat"
+    },
+    {
+        "id": "bread",
+        "symbol": "🍰",
+        "name": "Bread & Cake"
+    },
+    {
+        "id": "dairy",
+        "symbol": "🥛",
+        "name": "Dairy"
+    },
+    {
+        "id": "coffee",
+        "symbol": "☕",
+        "name": "Coffee & Tea"
+    },
+    {
+        "id": "pasta",
+        "symbol": "🍝",
+        "name": "Pasta, Rice, Flour, Sugar"
+    },
+    {
+        "id": "canned",
+        "symbol": "🥫",
+        "name": "Canned & Glassed Food"
+    },
+    {
+        "id": "sweet",
+        "symbol": "🍪",
+        "name": "Sweets"
+    },
+    {
+        "id": "sanitary",
+        "symbol": "🚻",
+        "name": "Sanitary & Cleaning"
+    },
+    {
+        "id": "beverage",
+        "symbol": "🍷",
+        "name": "Beverages"
+    },
+    {
+        "id": "misc",
+        "symbol": "🛍️",
+        "name": "Misc"
+    }
+]

@@ -17,6 +17,7 @@ class ShoppingList extends Component {
                     {shoppingListItems.map(item => (
                         <li key={item.id}>
                             <ShoppingListItem
+                            categories={this.props.categories}
                                 shoppingListItem={item}
                                 markAsBought={this.props.markAsBought}
                                 deleteShoppingListItem={
