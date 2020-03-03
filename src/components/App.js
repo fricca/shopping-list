@@ -4,6 +4,7 @@ import Header from "./Header";
 import ShoppingList from "./ShoppingList";
 import AddForm from "./AddForm";
 import Footer from "./Footer";
+import Drop from "./Drop/Drop";
 import Message from "./Message/Message";
 import categories from "../data/categories.json";
 
@@ -160,8 +161,18 @@ class App extends Component {
                         markAsBought={this.toggleBought}
                         deleteShoppingListItem={this.deleteShoppingListItem}
                     />
-                    <AddForm addShoppingListItem={this.addShoppingListItem} />
-                    <button
+                    <Drop
+                        trigger={{ show: "Add Item" }}
+                        classes={{
+                            wrap: "drawer is-holder is-bledoff",
+                            trigger: "drawer__trigger",
+                            content: "drawer__content",
+                        }}>
+                        <AddForm
+                            addShoppingListItem={this.addShoppingListItem}
+                            categories={categories}
+                        />
+                    </Drop>
                         type="button"
                         onClick={this.archiveShoppingList}
                         disabled={!this.hasBoughtItems()}>
