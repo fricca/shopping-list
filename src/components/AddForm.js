@@ -5,11 +5,12 @@ const initialState = {
     name: "",
     manufacturer: "",
     category: "misc",
+    id: null,
 };
 
 class AddForm extends React.Component {
     static propTypes = {
-        addShoppingListItem: PropTypes.func,
+        addShoppingItem: PropTypes.func,
     };
 
     state = initialState;
@@ -26,13 +27,35 @@ class AddForm extends React.Component {
     handleSubmit = ev => {
         ev.preventDefault();
 
-        if (this.state.name) {
-            this.props.addShoppingListItem(this.state);
+        // Editing an item
+        if (this.state.id) {
+            this.props.updateShoppingItem(this.state);
+        } else {
+            // Adding an item
+            if (this.state.name) {
+                this.props.addShoppingItem(this.state);
 
-            this.setState(initialState);
-            ev.currentTarget.reset();
+                this.setState(initialState);
+                ev.currentTarget.reset();
+            }
         }
     };
+
+    componentDidUpdate(prevProps) {
+        // No edit item passed in -> reset existing edit item
+        if (!this.props.editItem && this.state.id) {
+            this.setState(initialState);
+        }
+
+        // Edit item passed in -> set state accordingly
+        if (
+            this.props.editItem &&
+            (!prevProps.editItem ||
+                this.props.editItem.id !== prevProps.editItem.id)
+        ) {
+            this.setState({ ...this.props.editItem });
+        }
+    }
 
     renderCategory = category => {
         return (
@@ -61,7 +84,9 @@ class AddForm extends React.Component {
                 style={{ "--max-height": "65vh" }}
                 onSubmit={this.handleSubmit}>
                 <header className="form__header">
-                    <h2 className="form__title">Add Item</h2>
+                    <h2 className="form__title">
+                        {this.state.id ? "Edit Item" : "Add Item"}
+                    </h2>
                 </header>
                 <div className="form__group inscroll__scroll inscroll">
                     <div className="form__item">
@@ -95,8 +120,19 @@ class AddForm extends React.Component {
                     <button
                         className="btn btn--primary form__action form__action--submit"
                         disabled={!this.state.name}>
-                        Add
+                        {this.state.id ? "edit" : "Add"}
                     </button>
+
+                    {this.state.id ? (
+                        <button
+                            type="button"
+                            className="btn form__action form__action--reset"
+                            onClick={this.props.resetEditItem}>
+                            Reset
+                        </button>
+                    ) : (
+                        ""
+                    )}
                 </div>
             </form>
         );

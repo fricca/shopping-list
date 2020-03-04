@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import shoppingItemPropType from "./propTypes/shoppingItemPropType";
+import PropTypes from "prop-types";
+import shoppingItemPropType from "./propTypes";
 
 const ItemContent = ({ bought, name }) => {
     let Tag = "span";
@@ -14,21 +15,33 @@ const ItemContent = ({ bought, name }) => {
     );
 };
 
-class ShoppingListItem extends Component {
+class ShoppingItem extends Component {
     static propTypes = {
-        shoppingListItem: shoppingItemPropType,
+        shoppingItem: shoppingItemPropType,
+        markAsBought: PropTypes.func,
+        deleteShoppingItem: PropTypes.func,
+        toggleDrawer: PropTypes.func,
+        editItem: shoppingItemPropType,
     };
 
     render() {
         const {
-            shoppingListItem: item,
-            deleteShoppingListItem: deleteItem,
+            shoppingItem: item,
             markAsBought,
+            deleteShoppingItem,
+            toggleDrawer,
+            editItem,
         } = this.props;
+
+        const isEdited = editItem && editItem.id === item.id;
 
         return (
             <div
-                className={"shopping-item" + (item.bought ? " is-bought" : "")}>
+                className={
+                    "shopping-item" +
+                    (item.bought ? " is-bought" : "") +
+                    (isEdited ? " is-edited" : "")
+                }>
                 <ItemContent {...item} />
                 <div className="shopping-item__action-group">
                     <button
@@ -42,9 +55,15 @@ class ShoppingListItem extends Component {
                         </span>
                     </button>
                     <button
+                        className="btn shopping-item__action shopping-item__action--edit"
+                        type="button"
+                        onClick={() => toggleDrawer(item)}>
+                        <span className="a11y-hidden">Edit item</span>
+                    </button>
+                    <button
                         className="btn shopping-item__action shopping-item__action--delete"
                         type="button"
-                        onClick={() => deleteItem(item.id)}>
+                        onClick={() => deleteShoppingItem(item.id)}>
                         <span className="a11y-hidden">Delete item</span>
                     </button>
                 </div>
@@ -53,4 +72,4 @@ class ShoppingListItem extends Component {
     }
 }
 
-export default ShoppingListItem;
+export default ShoppingItem;

@@ -1,14 +1,18 @@
 .shopping-item {
-    --swipe-space: calc(var(--spacing-base) * 2);
+    --min-size: calc(var(--spacing-base) * 4);
 
+    min-height: var(--min-size);
     background-color: #fff;
-    min-height: 3em;
-    margin-right: var(--swipe-space);
     display: flex;
     align-items: stretch;
+    transition: transform .2s, box-shadow .1s;
 
     &.is-bought {
         background-color: var(--c-gray-lighter);
+    }
+    &.is-edited {
+        transform: scale(1.025);
+        box-shadow: 0 0 10px var(--c-gray);
     }
 
     &__item {
@@ -42,11 +46,10 @@
         display: flex;
     }
     &__action {
-        --min-size: var(--swipe-space);
-        --width: 3.25em;
-    
-        width: var(--width);
+        width: var(--min-size);
         min-height: var(--min-size);
+        border-left: 1px solid var(--c-gray-light);
+
         overflow: hidden;
         line-height: 1;
         display: flex;
@@ -101,11 +104,10 @@
         }
 
         &--delete {
+            --icon-height: 1.25em;
+            --icon-width: 4px;
             min-width: 0;
-            width: var(--swipe-space);
-            margin-right: calc(var(--swipe-space) * -1);
             position: relative; /* CB */
-            left: calc(var(--spacing-base) / 2); /* Fix position visually */
             flex: 0 1 auto;
             background: transparent;
 
@@ -114,8 +116,8 @@
                 content: "";
                 display: inline-block;
                 background-color: var(--c-danger);
-                width: 3px;
-                height: 1em;
+                width: var(--icon-width);
+                height: var(--icon-height);
                 position: absolute;
                 left: 0;
                 top: 0;
@@ -126,6 +128,48 @@
             }
             &::after {
                 transform: rotate(-45deg);
+            }
+        }
+
+        &--edit {
+            --icon-width: .5em;
+            --icon-height: 1.5em;
+            --icon-color: var(--c-gray);
+
+            font-size: 16px;
+            position: relative; /* CB */
+
+            &:focus,
+            .is-edited & {
+                --icon-color: var(--c-gray-darker);
+            }
+
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+            }
+            &::before {
+                --tip-height: calc(var(--icon-width) * 1.5);
+                width: 0;
+                height: 0;
+                border: 1px solid;
+                border-color: var(--icon-color) transparent transparent transparent;
+                border-width: var(--tip-height) calc(var(--icon-width) / 2) 0 calc(var(--icon-width) / 2);
+                opacity: .5;
+                transform: rotate(45deg) translateY(calc(var(--icon-height) / 2 + var(--tip-height) / 2));
+            }
+            &::after {
+                content: '';
+                width: var(--icon-width);
+                height: var(--icon-height);
+                background-color: var(--icon-color);
+                transform: rotate(45deg) translateY(-2px);
             }
         }
     }

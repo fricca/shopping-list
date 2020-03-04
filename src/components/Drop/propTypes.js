@@ -11,4 +11,5 @@ export default {
         trigger: PropTypes.string,
         content: PropTypes.string,
     }),
+    toggleFunc: PropTypes.func,
 };

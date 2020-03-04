@@ -1,15 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import ShoppingListItem from "./ShoppingListItem";
-import shoppingItemPropType from "./propTypes/shoppingItemPropType";
+import ShoppingItem from "./ShoppingItem";
+import shoppingItemPropType from "./ShoppingItem/propTypes";
 
 class ShoppingList extends Component {
     static propTypes = {
-        shoppingListItems: PropTypes.arrayOf(shoppingItemPropType),
+        categories: PropTypes.arrayOf(PropTypes.object),
+        shoppingItems: PropTypes.arrayOf(shoppingItemPropType),
+        markAsBought: PropTypes.func,
+        deleteShoppingItem: PropTypes.func,
+        toggleDrawer: PropTypes.func,
+        editItem: shoppingItemPropType,
     };
 
     categorizeItems = () => {
-        const { shoppingListItems: items } = this.props;
+        const { shoppingItems: items } = this.props;
         const categorized = {};
         this.props.categories.forEach(category => {
             if (items.find(item => item.category === category.id)) {
@@ -27,13 +32,13 @@ class ShoppingList extends Component {
             <ul className="item-list__list">
                 {items.map(item => (
                     <li key={item.id} className="item-list__item">
-                        <ShoppingListItem
+                        <ShoppingItem
                             categories={this.props.categories}
-                            shoppingListItem={item}
+                            shoppingItem={item}
                             markAsBought={this.props.markAsBought}
-                            deleteShoppingListItem={
-                                this.props.deleteShoppingListItem
-                            }
+                            deleteShoppingItem={this.props.deleteShoppingItem}
+                            toggleDrawer={this.props.toggleDrawer}
+                            editItem={this.props.editItem}
                         />
                     </li>
                 ))}
@@ -42,7 +47,7 @@ class ShoppingList extends Component {
     };
 
     render() {
-        const { shoppingListItems: items, categories } = this.props;
+        const { shoppingItems: items, categories } = this.props;
         const categorizedItems = this.categorizeItems();
 
         const content = items.length ? (

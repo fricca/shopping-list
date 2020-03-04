@@ -4,7 +4,7 @@ import Header from "./Header";
 import ShoppingList from "./ShoppingList";
 import AddForm from "./AddForm";
 import Footer from "./Footer";
-import Drop from "./Drop/Drop";
+import Drop from "./Drop";
 import Message from "./Message/Message";
 import categories from "../data/categories.json";
 
@@ -21,9 +21,11 @@ const storageName = "shoppingList";
 
 class App extends Component {
     state = {
-        shoppingListItems: [],
+        shoppingItems: [],
         archivedItems: [],
         messages: [],
+        editItem: null,
+        showDrawer: false,
     };
 
     // Messages
@@ -41,9 +43,9 @@ class App extends Component {
 
     // Shopping list
     toggleBought = updateItem => {
-        const items = this.state.shoppingListItems;
+        const items = this.state.shoppingItems;
         this.setState({
-            shoppingListItems: items.map(item => {
+            shoppingItems: items.map(item => {
                 return item.id === updateItem.id
                     ? {
                           ...item,
@@ -60,10 +62,34 @@ class App extends Component {
         });
     };
 
-    addShoppingListItem = ({ name, manufacturer, category }) => {
-        const items = this.state.shoppingListItems;
+    archiveShoppingList = ev => {
+        ev.preventDefault();
+
+        const doit = window.confirm(
+            "Finish shopping: Move items marked as bought to the archive."
+        );
+        if (doit) {
+            const bought = this.state.shoppingItems.filter(item => item.bought);
+            const open = this.state.shoppingItems.filter(item => !item.bought);
+            this.setState({
+                archivedItems: bought || [],
+                shoppingItems: open || [],
+            });
+        }
+    };
+
+    hasBoughtItems = () => {
+        return (
+            this.state.shoppingItems &&
+            this.state.shoppingItems.find(item => item.bought)
+        );
+    };
+
+    // ShoppingItems
+    addShoppingItem = ({ name, manufacturer, category }) => {
+        const items = this.state.shoppingItems;
         this.setState({
-            shoppingListItems: [
+            shoppingItems: [
                 ...items,
                 {
                     ...initialItem,
@@ -76,13 +102,13 @@ class App extends Component {
         });
     };
 
-    deleteShoppingListItem = id => {
-        const items = this.state.shoppingListItems;
+    deleteShoppingItem = id => {
+        const items = this.state.shoppingItems;
         let deletedIndex;
 
         this.setState(
             {
-                shoppingListItems: items.filter((item, index) => {
+                shoppingItems: items.filter((item, index) => {
                     if (item.id === id) {
                         deletedIndex = index;
                         return false;
@@ -97,7 +123,7 @@ class App extends Component {
                     button: "Undo?",
                     callback: () => {
                         this.setState({
-                            shoppingListItems: items,
+                            shoppingItems: items,
                         });
                     },
                 });
@@ -105,47 +131,58 @@ class App extends Component {
         );
     };
 
-    archiveShoppingList = ev => {
-        ev.preventDefault();
+    updateShoppingItem = updateItem => {
+        const { shoppingItems } = this.state;
 
-        const doit = window.confirm(
-            "Finish shopping: Move items marked as bought to the archive."
-        );
-        if (doit) {
-            const bought = this.state.shoppingListItems.filter(
-                item => item.bought
-            );
-            const open = this.state.shoppingListItems.filter(
-                item => !item.bought
-            );
+        if (updateItem.id) {
             this.setState({
-                archivedItems: bought,
-                shoppingListItems: open,
+                shoppingItems: shoppingItems.map(item =>
+                    updateItem.id === item.id ? updateItem : item
+                ),
             });
+
+            // Close drawer and reset item
+            this.toggleDrawer();
         }
     };
 
-    hasBoughtItems = () => {
-        return !!this.state.shoppingListItems.find(item => item.bought);
+    // Drawer
+    setEditItem = item => {
+        this.setState({ editItem: item || null });
+    };
+
+    toggleDrawer = item => {
+        const newItem = item || null;
+
+        // Drawer should be closed and editItem reset if
+        // a. is open and no item is passed in
+        // b. same item is passed in again
+        const showDrawer = !(
+            (this.state.showDrawer && !item) ||
+            (this.state.editItem && this.state.editItem.id === item.id)
+        );
+
+        this.setEditItem(showDrawer ? newItem : null);
+        this.setState({ showDrawer });
     };
 
     // Lifecycle
     componentDidMount() {
         const stored = localStorage.getItem(storageName);
         if (stored) {
-            const { shoppingListItems, archivedItems } = JSON.parse(stored);
+            const { shoppingItems, archivedItems } = JSON.parse(stored);
             this.setState({
-                shoppingListItems,
-                archivedItems,
+                shoppingItems: shoppingItems || [],
+                archivedItems: archivedItems || [],
             });
         }
     }
 
     componentDidUpdate() {
-        const { shoppingListItems, archivedItems } = this.state;
+        const { shoppingItems, archivedItems } = this.state;
         localStorage.setItem(
             storageName,
-            JSON.stringify({ shoppingListItems, archivedItems })
+            JSON.stringify({ shoppingItems, archivedItems })
         );
     }
 
@@ -165,20 +202,27 @@ class App extends Component {
                 <Header>
                     <div className="action">
                         <button
-                            className="btn"
+                            className="btn btn--secondary action__item"
                             type="button"
                             onClick={this.archiveShoppingList}
                             disabled={!this.hasBoughtItems()}>
-                            To Archive
+                            Archive
+                        </button>
+                        <button
+                            className="btn btn--secondary action__item"
+                            type="button">
+                            Edit
                         </button>
                     </div>
                 </Header>
                 <main className="page__main shopping holder">
                     <ShoppingList
                         categories={categories}
-                        shoppingListItems={this.state.shoppingListItems}
+                        shoppingItems={this.state.shoppingItems}
                         markAsBought={this.toggleBought}
-                        deleteShoppingListItem={this.deleteShoppingListItem}
+                        deleteShoppingItem={this.deleteShoppingItem}
+                        toggleDrawer={this.toggleDrawer}
+                        editItem={this.state.editItem}
                     />
                     <Drop
                         trigger={{ show: "Add Item" }}
@@ -186,10 +230,15 @@ class App extends Component {
                             wrap: "drawer holder is-bledoff",
                             trigger: "drawer__trigger",
                             content: "drawer__content",
-                        }}>
+                        }}
+                        toggleFunc={this.toggleDrawer}
+                        visible={this.state.showDrawer}>
                         <AddForm
-                            addShoppingListItem={this.addShoppingListItem}
                             categories={categories}
+                            addShoppingItem={this.addShoppingItem}
+                            updateShoppingItem={this.updateShoppingItem}
+                            editItem={this.state.editItem}
+                            resetEditItem={() => this.setEditItem()}
                         />
                     </Drop>
                 </main>

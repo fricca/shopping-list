@@ -1,37 +1,48 @@
 import React, { Component } from "react";
 import classNames from "classnames";
-import "./Drop.css";
-import dropPropTypes from "../propTypes/dropPropType";
+import "./style.css";
+import dropPropTypes from "./propTypes";
 
 class Drop extends Component {
     static propTypes = dropPropTypes;
 
     state = {
         visible: false,
+        toggleByProp: false,
+    };
+
+    toggle = () => {
+        this.setState({ visible: !this.state.visible });
+    };
+
+    handleClick = ev => {
+        ev.preventDefault();
+        this.state.toggleByProp ? this.props.toggleFunc() : this.toggle();
     };
 
     componentDidMount() {
-        this.updateVisiblity();
-    }
+        // Deal with function to set visibility from above
+        if (typeof this.props.toggleFunc === "function") {
+            this.setState({ toggleByProp: true });
+        }
 
-    updateVisiblity = () => {
+        // Deal with initially set visibility from above
         if (
             typeof this.props.visible !== "undefined" &&
             this.props.visible !== this.state.visible
         ) {
             this.toggle();
         }
-    };
+    }
 
-    toggle = () => {
-        const { visible } = this.state;
-        this.setState({ visible: !visible });
-    };
-
-    handleClick = ev => {
-        ev.preventDefault();
-        this.toggle();
-    };
+    componentDidUpdate(prevProps) {
+        if (
+            this.state.toggleByProp &&
+            prevProps.visible !== this.props.visible
+        ) {
+            this.setState({ visible: this.props.visible });
+        }
+    }
 
     render() {
         const { trigger, classes: cssClasses } = this.props;
@@ -59,7 +70,7 @@ class Drop extends Component {
                 <button
                     type="button"
                     className={triggerClass}
-                    onClick={this.toggle}>
+                    onClick={this.handleClick}>
                     <span className={`${baseClass}__trigger-text`}>
                         {!visible
                             ? (trigger && trigger.show) || "Show more"
