@@ -5,7 +5,7 @@
     background-color: #fff;
     display: flex;
     align-items: stretch;
-    transition: transform .2s, box-shadow .1s;
+    transition: transform .3s .1s, box-shadow .3s .1s;
 
     &.is-bought {
         background-color: var(--c-gray-lighter);
@@ -13,6 +13,7 @@
     &.is-edited {
         transform: scale(1.025);
         box-shadow: 0 0 10px var(--c-gray);
+        transition: transform .2s, box-shadow .1s;
     }
 
     &__item {
@@ -30,6 +31,7 @@
         font-size: 125%;
         display: block;
         min-width: 0;
+        white-space: nowrap;
         hyphens: auto;
         word-wrap: break;
         overflow: hidden;
@@ -133,7 +135,7 @@
 
         &--edit {
             --icon-width: .5em;
-            --icon-height: 1.5em;
+            --icon-height: 1.25em;
             --icon-color: var(--c-gray);
 
             font-size: 16px;
@@ -170,6 +172,17 @@
                 height: var(--icon-height);
                 background-color: var(--icon-color);
                 transform: rotate(45deg) translateY(-2px);
+            }
+        }
+
+        &.is-optional {
+            width: 0;
+            border-width: 0;
+            transition: width .2s;
+
+            .is-editable & {
+                border-width: 1px;
+                width: var(--min-size);
             }
         }
     }

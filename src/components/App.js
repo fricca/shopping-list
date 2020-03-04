@@ -24,6 +24,7 @@ class App extends Component {
         shoppingItems: [],
         archivedItems: [],
         messages: [],
+        editMode: false,
         editItem: null,
         showDrawer: false,
     };
@@ -34,6 +35,7 @@ class App extends Component {
         this.addMessage = this.addMessage.bind(this);
         this.removeMessage = this.removeMessage.bind(this);
 
+        this.toggleEditMode = this.toggleEditMode.bind(this);
         this.archiveShoppingList = this.archiveShoppingList.bind(this);
         this.hasBoughtItems = this.hasBoughtItems.bind(this);
         this.toggleBought = this.toggleBought.bind(this);
@@ -58,6 +60,10 @@ class App extends Component {
     }
 
     // Shopping list
+    toggleEditMode(ev) {
+        this.setState({ editMode: !this.state.editMode });
+    }
+
     archiveShoppingList(ev) {
         ev.preventDefault();
 
@@ -218,15 +224,19 @@ class App extends Component {
                 <Header>
                     <div className="action">
                         <button
-                            className="btn btn--secondary action__item"
+                            className="btn btn--secondary action__item action__item--archive"
                             type="button"
                             onClick={this.archiveShoppingList}
                             disabled={!this.hasBoughtItems()}>
                             Archive
                         </button>
                         <button
-                            className="btn btn--secondary action__item"
-                            type="button">
+                            className={
+                                "btn btn--secondary action__item action__item--edit" +
+                                (this.state.editMode ? " is-active" : "")
+                            }
+                            type="button"
+                            onClick={this.toggleEditMode}>
                             Edit
                         </button>
                     </div>
@@ -236,6 +246,7 @@ class App extends Component {
                         categories={categories}
                         shoppingItems={this.state.shoppingItems}
                         markAsBought={this.toggleBought}
+                        editMode={this.state.editMode}
                         deleteShoppingItem={this.deleteShoppingItem}
                         toggleDrawer={this.toggleDrawer}
                         editItem={this.state.editItem}

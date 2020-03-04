@@ -47,11 +47,11 @@ class ShoppingList extends Component {
     };
 
     render() {
-        const { shoppingItems: items, categories } = this.props;
+        const { shoppingItems: items, categories, editMode } = this.props;
         const categorizedItems = this.categorizeItems();
 
         const content = items.length ? (
-            <ul className="cat-list__list">
+            <ul className={"cat-list__list" + (editMode ? " is-editable" : "")}>
                 {Object.keys(categorizedItems).map(catKey => {
                     const currentCat = categories.find(
                         cat => cat.id === catKey

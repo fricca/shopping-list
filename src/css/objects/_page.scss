@@ -15,6 +15,7 @@
     &__main {
         padding-left: var(--spacing-base);
         padding-right: var(--spacing-base);
+        padding-bottom: 4rem; // Spacing after last item to avoid overlapping w/ add button
     }
 
     &__footer {

@@ -55,13 +55,13 @@ class ShoppingItem extends Component {
                         </span>
                     </button>
                     <button
-                        className="btn shopping-item__action shopping-item__action--edit"
+                        className="btn shopping-item__action shopping-item__action--edit is-optional"
                         type="button"
                         onClick={() => toggleDrawer(item)}>
                         <span className="a11y-hidden">Edit item</span>
                     </button>
                     <button
-                        className="btn shopping-item__action shopping-item__action--delete"
+                        className="btn shopping-item__action shopping-item__action--delete is-optional"
                         type="button"
                         onClick={() => deleteShoppingItem(item.id)}>
                         <span className="a11y-hidden">Delete item</span>
