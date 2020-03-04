@@ -28,21 +28,61 @@ class App extends Component {
         showDrawer: false,
     };
 
+    constructor(props) {
+        super(props);
+
+        this.addMessage = this.addMessage.bind(this);
+        this.removeMessage = this.removeMessage.bind(this);
+
+        this.archiveShoppingList = this.archiveShoppingList.bind(this);
+        this.hasBoughtItems = this.hasBoughtItems.bind(this);
+        this.toggleBought = this.toggleBought.bind(this);
+        this.addShoppingItem = this.addShoppingItem.bind(this);
+        this.deleteShoppingItem = this.deleteShoppingItem.bind(this);
+        this.updateShoppingItem = this.updateShoppingItem.bind(this);
+        this.setEditItem = this.setEditItem.bind(this);
+        this.toggleDrawer = this.toggleDrawer.bind(this);
+    }
+
     // Messages
-    addMessage = message => {
+    addMessage(message) {
         this.setState({
             messages: [...this.state.messages, { ...message, id: uuidv1() }],
         });
-    };
+    }
 
-    removeMessage = id => {
+    removeMessage(id) {
         this.setState({
             messages: this.state.messages.filter(mess => mess.id !== id),
         });
-    };
+    }
 
     // Shopping list
-    toggleBought = updateItem => {
+    archiveShoppingList(ev) {
+        ev.preventDefault();
+
+        const doit = window.confirm(
+            "Finish shopping?\nMoves items marked as bought to the archive."
+        );
+        if (doit) {
+            const bought = this.state.shoppingItems.filter(item => item.bought);
+            const open = this.state.shoppingItems.filter(item => !item.bought);
+            this.setState({
+                archivedItems: bought || [],
+                shoppingItems: open || [],
+            });
+        }
+    }
+
+    hasBoughtItems() {
+        return (
+            this.state.shoppingItems &&
+            this.state.shoppingItems.find(item => item.bought)
+        );
+    }
+
+    // ShoppingItems
+    toggleBought(updateItem) {
         const items = this.state.shoppingItems;
         this.setState({
             shoppingItems: items.map(item => {
@@ -60,33 +100,9 @@ class App extends Component {
                     : item;
             }),
         });
-    };
+    }
 
-    archiveShoppingList = ev => {
-        ev.preventDefault();
-
-        const doit = window.confirm(
-            "Finish shopping: Move items marked as bought to the archive."
-        );
-        if (doit) {
-            const bought = this.state.shoppingItems.filter(item => item.bought);
-            const open = this.state.shoppingItems.filter(item => !item.bought);
-            this.setState({
-                archivedItems: bought || [],
-                shoppingItems: open || [],
-            });
-        }
-    };
-
-    hasBoughtItems = () => {
-        return (
-            this.state.shoppingItems &&
-            this.state.shoppingItems.find(item => item.bought)
-        );
-    };
-
-    // ShoppingItems
-    addShoppingItem = ({ name, manufacturer, category }) => {
+    addShoppingItem({ name, manufacturer, category }) {
         const items = this.state.shoppingItems;
         this.setState({
             shoppingItems: [
@@ -100,9 +116,9 @@ class App extends Component {
                 },
             ],
         });
-    };
+    }
 
-    deleteShoppingItem = id => {
+    deleteShoppingItem(id) {
         const items = this.state.shoppingItems;
         let deletedIndex;
 
@@ -129,9 +145,9 @@ class App extends Component {
                 });
             }
         );
-    };
+    }
 
-    updateShoppingItem = updateItem => {
+    updateShoppingItem(updateItem) {
         const { shoppingItems } = this.state;
 
         if (updateItem.id) {
@@ -144,14 +160,14 @@ class App extends Component {
             // Close drawer and reset item
             this.toggleDrawer();
         }
-    };
+    }
 
     // Drawer
-    setEditItem = item => {
+    setEditItem(item) {
         this.setState({ editItem: item || null });
-    };
+    }
 
-    toggleDrawer = item => {
+    toggleDrawer(item) {
         const newItem = item || null;
 
         // Drawer should be closed and editItem reset if
@@ -164,7 +180,7 @@ class App extends Component {
 
         this.setEditItem(showDrawer ? newItem : null);
         this.setState({ showDrawer });
-    };
+    }
 
     // Lifecycle
     componentDidMount() {
