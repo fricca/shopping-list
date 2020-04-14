@@ -74,7 +74,7 @@
         --bg-trans: .75;
 
         border-top: 2px solid var(--c-gray);
-        background: var(--c-gray-light-trans);
+        background: var(--c-white-trans);
         backdrop-filter: blur(4px); /* Adds stacking context */
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.05), 0 0 20px rgba(0, 0, 0, 0.175);
         padding: var(--spacing-base) calc(var(--spacing-base) * 2);
