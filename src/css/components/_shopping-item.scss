@@ -164,7 +164,7 @@
                 border-color: var(--icon-color) transparent transparent transparent;
                 border-width: var(--tip-height) calc(var(--icon-width) / 2) 0 calc(var(--icon-width) / 2);
                 opacity: .5;
-                transform: rotate(45deg) translateY(calc(var(--icon-height) / 2 + var(--tip-height) / 2));
+                transform: rotate(45deg) translateY(calc((var(--icon-height) + var(--tip-height)) / 2));
             }
             &::after {
                 content: '';
